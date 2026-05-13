@@ -4,7 +4,6 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
@@ -102,18 +101,18 @@ public class JEIScorchedPlugin implements IModPlugin {
 
 
 
-        List<GunBenchRecipe> gunBenchRecipes = recipeManager.getAllRecipesFor(GunBenchRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList();
-        List<MaceratorRecipe> maceratorRecipes = recipeManager.getAllRecipesFor(MaceratorRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList();
-        List<PoweredMaceratorRecipe> poweredMaceratorRecipes = recipeManager.getAllRecipesFor(PoweredMaceratorRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList();
-        List<MechanicalPressRecipe> mechanicalPressRecipes = recipeManager.getAllRecipesFor(MechanicalPressRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList();
+        List<RecipeHolder<GunBenchRecipe>> gunBenchRecipes = recipeManager.getAllRecipesFor(GunBenchRecipe.Type.INSTANCE);
+        List<RecipeHolder<MaceratorRecipe>> maceratorRecipes = recipeManager.getAllRecipesFor(MaceratorRecipe.Type.INSTANCE);
+        List<RecipeHolder<PoweredMaceratorRecipe>> poweredMaceratorRecipes = recipeManager.getAllRecipesFor(PoweredMaceratorRecipe.Type.INSTANCE);
+        List<RecipeHolder<MechanicalPressRecipe>> mechanicalPressRecipes = recipeManager.getAllRecipesFor(MechanicalPressRecipe.Type.INSTANCE);
 
-        List<PoweredMechanicalPressRecipe> poweredMechanicalPressRecipes = recipeManager.getAllRecipesFor(PoweredMechanicalPressRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList();
+        List<RecipeHolder<PoweredMechanicalPressRecipe>> poweredMechanicalPressRecipes = recipeManager.getAllRecipesFor(PoweredMechanicalPressRecipe.Type.INSTANCE);
         registration.addRecipes(GunBenchCategory.GUN_BENCH_TYPE, gunBenchRecipes);
         registration.addRecipes(MaceratorCategory.MACERATING_TYPE, maceratorRecipes);
         registration.addRecipes(PoweredMaceratorCategory.POWERED_MACERATING_TYPE, poweredMaceratorRecipes);
         registration.addRecipes(MechanicalPressCategory.MECHANICAL_PRESS_TYPE, mechanicalPressRecipes);
         registration.addRecipes(PoweredMechanicalPressCategory.POWERED_MECHANICAL_PRESS_TYPE, poweredMechanicalPressRecipes);
-        registration.addRecipes(LightningBatteryCategory.LIGHTNING_BATTERY_TYPE, recipeManager.getAllRecipesFor(LightningBatteryRecipe.Type.INSTANCE).stream().map(RecipeHolder::value).toList());
+        registration.addRecipes(LightningBatteryCategory.LIGHTNING_BATTERY_TYPE, recipeManager.getAllRecipesFor(LightningBatteryRecipe.Type.INSTANCE));
 
 
     }

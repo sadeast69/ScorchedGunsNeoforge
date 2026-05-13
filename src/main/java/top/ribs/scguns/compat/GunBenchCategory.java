@@ -15,16 +15,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import top.ribs.scguns.Reference;
 import top.ribs.scguns.client.screen.GunBenchRecipe;
 import top.ribs.scguns.init.ModBlocks;
 
 import java.awt.*;
 
-public class GunBenchCategory implements IRecipeCategory<GunBenchRecipe> {
+public class GunBenchCategory implements IRecipeCategory<RecipeHolder<GunBenchRecipe>> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "gun_bench");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/gun_bench_gui.png");
-    public static final RecipeType<GunBenchRecipe> GUN_BENCH_TYPE = new RecipeType<>(UID, GunBenchRecipe.class);
+    public static final RecipeType<RecipeHolder<GunBenchRecipe>> GUN_BENCH_TYPE = RecipeType.createRecipeHolderType(UID);
     private final IDrawable background;
     private final IDrawable icon;
     private final int offsetX = 22;
@@ -37,7 +38,7 @@ public class GunBenchCategory implements IRecipeCategory<GunBenchRecipe> {
     }
 
     @Override
-    public RecipeType<GunBenchRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<GunBenchRecipe>> getRecipeType() {
         return GUN_BENCH_TYPE;
     }
 
@@ -57,7 +58,8 @@ public class GunBenchCategory implements IRecipeCategory<GunBenchRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, GunBenchRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<GunBenchRecipe> holder, IFocusGroup focuses) {
+    	GunBenchRecipe recipe = holder.value();
         int[] slotX = {26, 44, 62, 80, 26, 44, 62, 80, 26, 62, 116};
         int[] slotY = {17, 17, 17, 17, 35, 35, 35, 35, 53, 53, 17}; // Add the position for the blueprint slot
 

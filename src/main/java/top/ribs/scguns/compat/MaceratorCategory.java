@@ -13,16 +13,17 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import top.ribs.scguns.Reference;
 import top.ribs.scguns.client.screen.MaceratorRecipe;
 import top.ribs.scguns.init.ModBlocks;
 
 import java.awt.*;
 
-public class MaceratorCategory implements IRecipeCategory<MaceratorRecipe> {
+public class MaceratorCategory implements IRecipeCategory<RecipeHolder<MaceratorRecipe>> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "macerating");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/macerator_gui.png");
-    public static final RecipeType<MaceratorRecipe> MACERATING_TYPE = new RecipeType<>(UID, MaceratorRecipe.class);
+    public static final RecipeType<RecipeHolder<MaceratorRecipe>> MACERATING_TYPE = RecipeType.createRecipeHolderType(UID);
     private final IDrawable background;
     private final IDrawable icon;
     private final int offsetX = 40;
@@ -34,7 +35,7 @@ public class MaceratorCategory implements IRecipeCategory<MaceratorRecipe> {
     }
 
     @Override
-    public RecipeType<MaceratorRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<MaceratorRecipe>> getRecipeType() {
         return MACERATING_TYPE;
     }
 
@@ -53,7 +54,8 @@ public class MaceratorCategory implements IRecipeCategory<MaceratorRecipe> {
         return this.icon;
     }
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, MaceratorRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MaceratorRecipe> holder, IFocusGroup focuses) {
+    	MaceratorRecipe recipe = holder.value();
         int inputBaseX = 4;
         int inputBaseY = 1;
         int inputSpacing = 18;
@@ -71,8 +73,9 @@ public class MaceratorCategory implements IRecipeCategory<MaceratorRecipe> {
                 .addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
     }
     @Override
-    public void draw(MaceratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    public void draw(RecipeHolder<MaceratorRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        IRecipeCategory.super.draw(holder, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    	MaceratorRecipe recipe = holder.value();
         int processingTime = recipe.getProcessingTime();
         if (processingTime > 0) {
             int seconds = processingTime / 20;

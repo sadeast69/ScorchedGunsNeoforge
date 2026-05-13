@@ -13,16 +13,17 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import top.ribs.scguns.Reference;
 import top.ribs.scguns.client.screen.MechanicalPressRecipe;
 import top.ribs.scguns.init.ModBlocks;
 
 import java.awt.*;
 
-public class MechanicalPressCategory implements IRecipeCategory<MechanicalPressRecipe> {
+public class MechanicalPressCategory implements IRecipeCategory<RecipeHolder<MechanicalPressRecipe>> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "mechanical_pressing");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/mechanical_press_gui.png");
-    public static final RecipeType<MechanicalPressRecipe> MECHANICAL_PRESS_TYPE = new RecipeType<>(UID, MechanicalPressRecipe.class);
+    public static final RecipeType<RecipeHolder<MechanicalPressRecipe>> MECHANICAL_PRESS_TYPE = RecipeType.createRecipeHolderType(UID);
     private final IDrawable background;
     private final IDrawable icon;
     private final int offsetX = 20;
@@ -34,7 +35,7 @@ public class MechanicalPressCategory implements IRecipeCategory<MechanicalPressR
     }
 
     @Override
-    public RecipeType<MechanicalPressRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<MechanicalPressRecipe>> getRecipeType() {
         return MECHANICAL_PRESS_TYPE;
     }
 
@@ -54,7 +55,8 @@ public class MechanicalPressCategory implements IRecipeCategory<MechanicalPressR
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, MechanicalPressRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<MechanicalPressRecipe> holder, IFocusGroup focuses) {
+    	MechanicalPressRecipe recipe = holder.value();
         int inputBaseX = 24;
         int inputBaseY = 1;
         int inputSpacing = 18;
@@ -76,8 +78,9 @@ public class MechanicalPressCategory implements IRecipeCategory<MechanicalPressR
                 .addItemStack(recipe.getResultItem(Minecraft.getInstance().level.registryAccess()));
     }
     @Override
-    public void draw(MechanicalPressRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    public void draw(RecipeHolder<MechanicalPressRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        IRecipeCategory.super.draw(holder, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        MechanicalPressRecipe recipe = holder.value();
         int processingTime = recipe.getProcessingTime();
         if (processingTime > 0) {
             int seconds = processingTime / 20;

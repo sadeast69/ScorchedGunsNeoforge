@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import top.ribs.scguns.Reference;
 import top.ribs.scguns.client.screen.MechanicalPressRecipe;
 import top.ribs.scguns.client.screen.PoweredMechanicalPressRecipe;
@@ -22,10 +23,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class PoweredMechanicalPressCategory implements IRecipeCategory<PoweredMechanicalPressRecipe> {
+public class PoweredMechanicalPressCategory implements IRecipeCategory<RecipeHolder<PoweredMechanicalPressRecipe>> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "powered_mechanical_pressing");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/powered_mechanical_press_gui.png");
-    public static final RecipeType<PoweredMechanicalPressRecipe> POWERED_MECHANICAL_PRESS_TYPE = new RecipeType<>(UID, PoweredMechanicalPressRecipe.class);
+    public static final RecipeType<RecipeHolder<PoweredMechanicalPressRecipe>> POWERED_MECHANICAL_PRESS_TYPE = RecipeType.createRecipeHolderType(UID);
     private final IDrawable background;
     private final IDrawable icon;
     private final int offsetX = 11;
@@ -37,7 +38,7 @@ public class PoweredMechanicalPressCategory implements IRecipeCategory<PoweredMe
     }
 
     @Override
-    public RecipeType<PoweredMechanicalPressRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<PoweredMechanicalPressRecipe>> getRecipeType() {
         return POWERED_MECHANICAL_PRESS_TYPE;
     }
 
@@ -57,7 +58,8 @@ public class PoweredMechanicalPressCategory implements IRecipeCategory<PoweredMe
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, PoweredMechanicalPressRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<PoweredMechanicalPressRecipe> holder, IFocusGroup focuses) {
+    	PoweredMechanicalPressRecipe recipe = holder.value();
         int inputBaseX = 33;
         int inputBaseY = 11;
         int inputSpacing = 18;
@@ -81,8 +83,9 @@ public class PoweredMechanicalPressCategory implements IRecipeCategory<PoweredMe
     }
 
     @Override
-    public void draw(PoweredMechanicalPressRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    public void draw(RecipeHolder<PoweredMechanicalPressRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        IRecipeCategory.super.draw(holder, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        PoweredMechanicalPressRecipe recipe = holder.value();
         int processingTime = recipe.getProcessingTime();
         if (processingTime > 0) {
             int seconds = processingTime / 20;

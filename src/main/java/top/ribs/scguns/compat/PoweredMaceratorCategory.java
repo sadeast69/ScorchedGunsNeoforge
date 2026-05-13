@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import top.ribs.scguns.Reference;
 import top.ribs.scguns.client.screen.PoweredMaceratorRecipe;
 import top.ribs.scguns.init.ModBlocks;
@@ -21,10 +22,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class PoweredMaceratorCategory implements IRecipeCategory<PoweredMaceratorRecipe> {
+public class PoweredMaceratorCategory implements IRecipeCategory<RecipeHolder<PoweredMaceratorRecipe>> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "powered_macerating");
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/powered_macerator_gui.png");
-    public static final RecipeType<PoweredMaceratorRecipe> POWERED_MACERATING_TYPE = new RecipeType<>(UID, PoweredMaceratorRecipe.class);
+    public static final RecipeType<RecipeHolder<PoweredMaceratorRecipe>> POWERED_MACERATING_TYPE = RecipeType.createRecipeHolderType(UID);
     private final IDrawable background;
     private final IDrawable icon;
     private final int offsetX = 11;
@@ -36,7 +37,7 @@ public class PoweredMaceratorCategory implements IRecipeCategory<PoweredMacerato
     }
 
     @Override
-    public RecipeType<PoweredMaceratorRecipe> getRecipeType() {
+    public RecipeType<RecipeHolder<PoweredMaceratorRecipe>> getRecipeType() {
         return POWERED_MACERATING_TYPE;
     }
 
@@ -56,7 +57,8 @@ public class PoweredMaceratorCategory implements IRecipeCategory<PoweredMacerato
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, PoweredMaceratorRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<PoweredMaceratorRecipe> holder, IFocusGroup focuses) {
+    	PoweredMaceratorRecipe recipe = holder.value();
         int inputBaseX = 33;
         int inputBaseY = 11;
         int inputSpacing = 18;
@@ -76,8 +78,9 @@ public class PoweredMaceratorCategory implements IRecipeCategory<PoweredMacerato
     }
 
     @Override
-    public void draw(PoweredMaceratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        IRecipeCategory.super.draw(recipe, recipeSlotsView, guiGraphics, mouseX, mouseY);
+    public void draw(RecipeHolder<PoweredMaceratorRecipe> holder, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        IRecipeCategory.super.draw(holder, recipeSlotsView, guiGraphics, mouseX, mouseY);
+        PoweredMaceratorRecipe recipe = holder.value();
         int processingTime = recipe.getProcessingTime();
         if (processingTime > 0) {
             int seconds = processingTime / 20;
