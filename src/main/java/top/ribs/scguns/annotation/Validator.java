@@ -28,6 +28,12 @@ public class Validator
                 continue;
             }
 
+            String fieldClassName = field.getDeclaringClass().getName();
+            if(fieldClassName.startsWith("com.sun.") || fieldClassName.startsWith("java.") || fieldClassName.startsWith("javax.") || fieldClassName.startsWith("jdk.") || fieldClassName.startsWith("sun."))
+            {
+                continue;
+            }
+
             field.setAccessible(true);
 
             if(field.get(t) == null)
